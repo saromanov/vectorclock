@@ -54,5 +54,7 @@ func (vc *VectorClock) Send(title1, title2 string) error {
 	if !ok2 {
 		return errors.New(fmt.Sprintf("%s is not registred", title2))
 	}
+
+	vc.Fit(title2)
 	return nil
 }
