@@ -1,5 +1,12 @@
 package vectorclock
 
+import
+(
+	"errors"
+	"fmt"
+)
+
+
 type Clock struct {
 	nodes map[string]int
 }
@@ -33,6 +40,17 @@ func (vc *VectorClock) InitClocks() {
 	}
 }
 
-func (vc *VectorClock) Send(title string) {
 
+//Send provides cause between node1 and node2
+func (vc *VectorClock) Send(title1, title2 string)error {
+	clock1, ok := vc.clocks[title1]
+	if !ok {
+		return errors.New(fmt.Sprintf("%s is not registred", title1))
+	}
+
+	clock2, ok2 := vc.clocks[title2]
+	if !ok2 {
+		return errors.New(fmt.Sprintf("%s is not registred", title2))
+	}
+	return nil 
 }
