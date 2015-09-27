@@ -17,6 +17,13 @@ func (clock *Clock) Inc(title string) {
 	clock.nodes[title]++
 }
 
+func (clock *Clock) Set(title string, value int) {
+	clock.mutex.Lock()
+	defer clock.mutex.Unlock()
+	newvalue := clock.nodes[title] + value
+	clock.nodes[title] = newvalue
+}
+
 func (clock *Clock) Get(title string) int {
 	clock.mutex.Lock()
 	defer clock.mutex.Unlock()
