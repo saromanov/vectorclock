@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"sort"
 )
 
 type VectorClock struct {
@@ -59,4 +60,16 @@ func (vc *VectorClock) Send(title1, title2 string) error {
 
 	vc.Fit(title2)
 	return nil
+}
+
+//GetState returns current state of clocks for registed nodes
+func (vc *VectorClock) ShowState()map[string]*Clock {
+	sort.Strings(vc.nodes)
+	for _, key := range vc.nodes {
+		fmt.Printf("Node %s\n", key)
+		for _, value := range vc.nodes {
+			fmt.Println(value, vc.clocks[key].Get(value))
+		}
+	}
+	return vc.clocks
 }
