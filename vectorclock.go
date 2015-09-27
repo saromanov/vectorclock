@@ -3,6 +3,7 @@ package vectorclock
 import (
 	"errors"
 	"fmt"
+	"sync"
 )
 
 type VectorClock struct {
@@ -14,7 +15,7 @@ type VectorClock struct {
 func New() *VectorClock {
 	vc := new(VectorClock)
 	vc.nodes = []string{}
-	vc.clocks = map[string]*Clock{}
+	vc.clocks = map[string]*Clock{mutex:&sync.Mutex{}}
 	return vc
 }
 
