@@ -46,34 +46,26 @@ func (vc *VectorClock) Fit(title string) error {
 	return nil
 }
 
-//SetEvents provides set new event value to node
-func (vc *VectorClock) SetEvents(title string, num int) error {
-	_, ok := vc.clocks[title]
-	if !ok {
-		return errors.New(fmt.Sprintf("%s is not registred", title))
-	}
-
-	if num == 0 {
-		return errors.New("num can't be equal to zero")
-	}
-
-	vc.clocks[title].Set(title, num)
-	return nil
-}
 
 //Send provides cause between node1 and node2
 func (vc *VectorClock) Send(title1, title2 string) error {
-	_, ok := vc.clocks[title1]
+	item1, ok := vc.clocks[title1]
 	if !ok {
 		return errors.New(fmt.Sprintf("%s is not registred", title1))
 	}
 
-	_, ok2 := vc.clocks[title2]
+	item2, ok2 := vc.clocks[title2]
 	if !ok2 {
 		return errors.New(fmt.Sprintf("%s is not registred", title2))
 	}
+	vc.clocks[title2].Inc(title2)
 
-	vc.Fit(title2)
+	for key, _ := range vc.clocks {
+		newvalue := item1.Get(key)
+		if newvalue > item2.Get(key) {
+			vc.clocks[title2].Set(key, newvalue)
+		}
+	}
 	return nil
 }
 
