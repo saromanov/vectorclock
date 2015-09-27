@@ -80,3 +80,12 @@ func (vc *VectorClock) ShowState()map[string]*Clock {
 	}
 	return vc.clocks
 }
+
+
+func (vc *VectorClock) GetClock(title string)(*Clock, error) {
+	item, ok := vc.clocks[title]
+	if !ok {
+		return nil, errors.New(fmt.Sprintf("%s is not registred", title))
+	}
+	return item, nil
+}
