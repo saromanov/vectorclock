@@ -1,7 +1,6 @@
 package vectorclock
 
-import
-(
+import (
 	"sync"
 )
 
@@ -13,9 +12,13 @@ type Clock struct {
 //Note: No need to check exist of elements
 
 func (clock *Clock) Set(title string) {
-	clock[title]++
+	clock.mutex.Lock()
+	defer clock.mutex.Unlock()
+	clock.nodes[title]++
 }
 
 func (clock *Clock) Get(title string) int {
-	return clock[title]
+	clock.mutex.Lock()
+	defer clock.mutex.Unlock()
+	return clock.nodes[title]
 }

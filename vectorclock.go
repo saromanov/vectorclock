@@ -15,7 +15,7 @@ type VectorClock struct {
 func New() *VectorClock {
 	vc := new(VectorClock)
 	vc.nodes = []string{}
-	vc.clocks = map[string]*Clock{mutex:&sync.Mutex{}}
+	vc.clocks = map[string]*Clock{}
 	return vc
 }
 
@@ -31,27 +31,28 @@ func (vc *VectorClock) InitClocks() {
 		for _, value := range vc.nodes {
 			nodes[value] = 0
 		}
-		vc.clocks[item] = &Clock{nodes}
+		vc.clocks[item] = &Clock{nodes:nodes, mutex:&sync.Mutex{}}
 	}
 }
 
-//Fir provides add new event
+//Fit provides add new event
 func (vc *VectorClock) Fit(title string) error {
-	clock1, ok := vc.clocks[title]
+	_, ok := vc.clocks[title]
 	if !ok {
-		return errors.New(fmt.Sprintf("%s is not registred", title1))
+		return errors.New(fmt.Sprintf("%s is not registred", title))
 	}
 	vc.clocks[title].Set(title)
+	return nil
 }
 
 //Send provides cause between node1 and node2
 func (vc *VectorClock) Send(title1, title2 string) error {
-	clock1, ok := vc.clocks[title1]
+	_, ok := vc.clocks[title1]
 	if !ok {
 		return errors.New(fmt.Sprintf("%s is not registred", title1))
 	}
 
-	clock2, ok2 := vc.clocks[title2]
+	_, ok2 := vc.clocks[title2]
 	if !ok2 {
 		return errors.New(fmt.Sprintf("%s is not registred", title2))
 	}
