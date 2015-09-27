@@ -11,7 +11,7 @@ type Clock struct {
 
 //Note: No need to check exist of elements
 
-func (clock *Clock) Set(title string) {
+func (clock *Clock) Inc(title string) {
 	clock.mutex.Lock()
 	defer clock.mutex.Unlock()
 	clock.nodes[title]++

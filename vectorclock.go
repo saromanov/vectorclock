@@ -42,7 +42,7 @@ func (vc *VectorClock) Fit(title string) error {
 	if !ok {
 		return errors.New(fmt.Sprintf("%s is not registred", title))
 	}
-	vc.clocks[title].Set(title)
+	vc.clocks[title].Inc(title)
 	return nil
 }
 
