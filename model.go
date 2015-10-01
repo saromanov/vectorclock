@@ -41,8 +41,11 @@ func (vc *Model) Send(title1, title2 string) error {
 	if !ok2 {
 		return errors.New(fmt.Sprintf("%s is not registred", title2))
 	}
+
+	//Increase event on the current clock
 	vc.Clocks[title2].Inc(title2)
 
+	//Increase counter on all clocks if the new value > old value on clock
 	for key, _ := range vc.Clocks {
 		newvalue := item1.Get(key)
 		if newvalue > item2.Get(key) {
