@@ -5,7 +5,7 @@ import (
 )
 
 type Clock struct {
-	nodes map[string]int
+	Nodes map[string]int
 	mutex *sync.Mutex
 }
 
@@ -14,18 +14,18 @@ type Clock struct {
 func (clock *Clock) Inc(title string) {
 	clock.mutex.Lock()
 	defer clock.mutex.Unlock()
-	clock.nodes[title]++
+	clock.Nodes[title]++
 }
 
 func (clock *Clock) Set(title string, value int) {
 	clock.mutex.Lock()
 	defer clock.mutex.Unlock()
-	newvalue := clock.nodes[title] + value
-	clock.nodes[title] = newvalue
+	newvalue := clock.Nodes[title] + value
+	clock.Nodes[title] = newvalue
 }
 
 func (clock *Clock) Get(title string) int {
 	clock.mutex.Lock()
 	defer clock.mutex.Unlock()
-	return clock.nodes[title]
+	return clock.Nodes[title]
 }
