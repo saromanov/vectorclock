@@ -5,15 +5,14 @@ import
 	"testing"
 )
 
-func constructClocks()*VectorClock {
+func constructClocks()*Model {
 	clock := New()
 	clock.Add("node2")
 	clock.Add("node1")
 	clock.Add("node3")
 	clock.Add("node4")
 	clock.Add("node5")
-	clock.InitClocks()
-	return clock
+	return clock.InitClocks()
 }
 
 func TestFit(t *testing.T) {
